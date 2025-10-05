@@ -1,0 +1,68 @@
+(for common errors):
+sudo rm /var/lib/dpkg/lock-frontend
+sudo dpkg --configure -a
+
+
+
+sudo apt update
+sudo apt install qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virt-manager qemu-system
+sudo apt install qemu-kvm libvirt-bin bridge-utils virt-manager qemu-system
+
+sudo nano /etc/libvirt/libvirtd.conf
+
+listen_addr = "0.0.0.0"
+unix_sock_group = "libvirt"
+unix_sock_ro_perms = "0777"
+unix_sock_rw_perms = "0777"
+unix_sock_dir = "/var/run/libvirt"
+auth_unix_ro = "none"
+auth_unix_rw = "none"
+
+sudo systemctl restart libvirtd
+
+Run  virsh list - Displays no of Virtual machine running.
+
+
+virsh
+
+version
+
+nodeinfo
+
+virt-manager
+
+Go to virtual machine manager (virt-manager) in your linux system. Then, right click QEMU/KVM 
+and select New to create new VM. 
+
+Select import existing disk image and click forward. 
+
+Download cirros disk image from the link: https://download.cirros-cloud.net/0.5.1/
+
+Give the path of downloaded cirros disk image and click forward.
+
+
+5b)
+
+Download ubuntu server iso from the link: https://releases.ubuntu.com/16.04/ 
+
+qemu-img create -f qcow2 ubuntu_vm.qcow2 10G
+
+For storage, choose the option : Select or create custom storage and  locate to the 
+ubuntu_vm.qcow2 path and click Forward. 
+
+
+sudo qemu-img resize ubuntu_vm.qcow2 +10G
+
+qemu-img info ubuntu_vm.qcow2
+
+sudo growpart /dev/sda 1 
+sudo resize2fs /dev/sda1
+
+
+qemu-img convert -0 vdi ubuntu_vm.qcow2 ubuntu_vm.vdi -p
+
+
+qemu-img convert -0 vpc ubuntu_vm.qcow2 ubuntu_vm.vhd -p
+
+
+qemu-img convert -0 raw ubuntu_vm.qcow2 ubuntu_vm.img -p

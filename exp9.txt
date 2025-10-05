@@ -1,0 +1,30 @@
+Exp-7b:Creation of vm in powershell
+
+New-VM -Name "VM01" -MemoryStartupBytes 1GB -NewVHDPath D:\vhd\base.vhdx -NewVHDSizeBytes 40GB
+
+
+
+
+
+sudo -s
+ip link set br-cloud down
+brctl delbr br-cloud
+
+brctl delif br-cloud enp0s3
+
+brctl addbr br-cloud
+brctl addif br-cloud enp0s3
+
+ifconfig enp0s3 0
+
+ifconfig brcloud 10.0.2.20 netmask 255.255.255.0
+route add default gw 10.0.2.2 dev br-cloud
+
+ip link set br-cloud up
+
+
+Now, Verify the bridge addition ‘br-cloud’ using ip a command and its ip.
+
+route -n
+
+brctl show
